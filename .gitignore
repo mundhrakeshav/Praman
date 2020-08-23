@@ -1,0 +1,13 @@
+/backend/node_modules
+/backend/config.js
+/backend/package-lock.json
+
+/frontend/praman/.dart_tool
+/frontend/praman/.idea
+/frontend/praman/build
+/frontend/praman/ios
+/frontend/praman/test
+/frontend/praman/.*
+/frontend/praman/praman.iml
+/frontend/praman/pubspec.lock
+
