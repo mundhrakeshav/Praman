@@ -34,6 +34,8 @@ dependencies:
   flutter_secure_storage: ^3.3.3
   shared_preferences: ^0.5.8
   web_socket_channel: ^1.1.0
+  jdenticon_dart: ^1.2.1+1
+  flutter_svg: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -41,7 +43,6 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter.
 flutter:
   # The following line ensures that the Material Icons font is

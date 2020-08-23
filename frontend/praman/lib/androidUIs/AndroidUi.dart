@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:praman/Models/UserModel.dart';
-
 import 'package:praman/Services/sharedPref.dart';
-
 import 'organizationLandingPage.dart';
 import 'studentLandingPage.dart';
 import 'studentLoginOrSIgnUp.dart';
