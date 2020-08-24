@@ -7,11 +7,14 @@ import 'package:praman/Services/sharedPref.dart';
 import 'package:praman/Services/webSocketsEthVigil.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'package:praman/Widgets/drawerTiles.dart';
-import 'package:praman/androidUIs/Profile.dart';
 
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-import 'AndroidUi.dart';
+import '../AndroidUi.dart';
+import 'AddAcademics.dart';
+import 'AddResearchPaper.dart';
+import 'Profile.dart';
 
 class StudentLanding extends StatefulWidget {
 //
@@ -66,7 +69,7 @@ class _StudentLandingState extends State<StudentLanding> {
     return _displays.elementAt(index);
   }
 
-  Widget drawer() {
+  Widget drawer(BuildContext context) {
     String rawSvg = Jdenticon.toSvg(User.address);
 
     return Theme(
@@ -74,17 +77,21 @@ class _StudentLandingState extends State<StudentLanding> {
         child: Drawer(
           child: Column(
             children: [
-              Container(
-                height: 20,
-                color: Colors.black45,
-              ),
               UserAccountsDrawerHeader(
+                margin: EdgeInsets.all(20),
                 currentAccountPicture: SvgPicture.string(
                   rawSvg,
                   fit: BoxFit.contain,
                   height: 64,
                   width: 64,
                 ),
+                onDetailsPressed: () async {
+                  await launch(
+                      "https://goerli.etherscan.io/address/" + User.address,
+                      enableJavaScript: true,
+                      forceWebView: true,
+                      statusBarBrightness: Brightness.dark);
+                },
                 accountName: Text(User.name),
                 accountEmail: Text(
                   User.address,
@@ -92,8 +99,22 @@ class _StudentLandingState extends State<StudentLanding> {
                 ),
                 decoration: BoxDecoration(color: Colors.black45),
               ),
-              getDrawerTile("Add Academics", Icons.book_outlined, onTapp),
-              getDrawerTile("Add ResearchPapers", Icons.school, onTapp),
+              getDrawerTile("Add Academics", Icons.book_outlined, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddAcademics(),
+                  ),
+                );
+              }),
+              getDrawerTile("Add ResearchPapers", Icons.school, () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddResearchPaper(),
+                  ),
+                );
+              }),
               getDrawerTile("Add Patents", Icons.lightbulb, onTapp),
               getDrawerTile("Add extraCurricular", Icons.sports, onTapp),
               Spacer(),
@@ -110,7 +131,7 @@ class _StudentLandingState extends State<StudentLanding> {
 
     return Scaffold(
       appBar: getAppbar(),
-      drawer: drawer(),
+      drawer: drawer(context),
       body: getDisplay(_bottomNavBarselectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: _bottomItems,

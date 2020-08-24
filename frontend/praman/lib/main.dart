@@ -1,12 +1,7 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
-
 import 'package:flutter/material.dart';
 import 'package:praman/Services/auth.dart';
 import 'package:provider/provider.dart';
-
-import 'Services/contractData.dart';
-import 'Services/sharedPref.dart';
+import 'Services/addRecords.dart';
 import 'Services/webSocketsEthVigil.dart';
 import 'androidUIs/AndroidUi.dart';
 
@@ -24,6 +19,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider<WebSocketsEthVigil>(
           create: (context) => WebSocketsEthVigil(),
+        ),
+        Provider<AddRecordsBase>(
+          create: (context) => AddRecords(),
         ),
       ],
       child: MaterialApp(

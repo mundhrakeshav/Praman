@@ -36,6 +36,12 @@ dependencies:
   web_socket_channel: ^1.1.0
   jdenticon_dart: ^1.2.1+1
   flutter_svg: ^0.18.1
+  webview_flutter: ^0.3.22+1
+  url_launcher: ^5.5.0
+  auto_size_text: ^2.1.0
+  image_picker: ^0.6.7+4
+  flutter_image_compress: ^0.7.0
+  image_cropper: ^1.2.3
 
 dev_dependencies:
   flutter_test:

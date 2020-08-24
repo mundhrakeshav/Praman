@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:praman/Services/sharedPref.dart';
-import 'organizationLandingPage.dart';
-import 'studentLandingPage.dart';
-import 'studentLoginOrSIgnUp.dart';
+import 'Certifier/organizationLandingPage.dart';
+import 'Students/studentLandingPage.dart';
+import 'Students/studentLoginOrSIgnUp.dart';
 
 class AndroidUi extends StatefulWidget {
   @override
@@ -47,20 +47,5 @@ class _AndroidUiState extends State<AndroidUi> {
     } else {
       return StudentLoginOrSignupPage();
     }
-
-    // return FutureBuilder(
-    //     future: SharedPref.isTokenPresent(),
-    //     builder: (context, snapshot) {
-    //       if (!snapshot.hasData)
-    //         return Center(child: CircularProgressIndicator());
-    //       else {
-    //         if (snapshot.data) {
-    //           SharedPref.initialise();
-    //           return StudentLanding();
-    //         }
-
-    //         if (!snapshot.data) return StudentLoginOrSignupPage();
-    //       }
-    //     });
   }
 }

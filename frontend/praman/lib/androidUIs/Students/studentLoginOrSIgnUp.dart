@@ -5,40 +5,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:praman/Services/auth.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'package:praman/Widgets/setSnackBar.dart';
-import 'package:praman/androidUIs/AndroidUi.dart';
-import 'package:praman/androidUIs/studentLoginOrSIgnUp.dart';
+import 'package:praman/androidUIs/Certifier/organizationLoginOrSignUp.dart';
 
 import 'package:provider/provider.dart';
 
-class OrganizationLoginOrSignUp extends StatefulWidget {
-  @override
-  _OrganizationLoginOrSignUpState createState() =>
-      _OrganizationLoginOrSignUpState();
-}
+import '../AndroidUi.dart';
 
 enum FormType { login, register }
 
-class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
-  TextEditingController _uidController = TextEditingController();
-  TextEditingController _nameController = TextEditingController();
+class StudentLoginOrSignupPage extends StatefulWidget {
+  @override
+  _LoginOrSignupPageState createState() => _LoginOrSignupPageState();
+}
 
+class _LoginOrSignupPageState extends State<StudentLoginOrSignupPage> {
+  TextEditingController _uidController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _nameController = TextEditingController();
 
   FormType _formType = FormType.login;
   Auth authProvider;
+
   bool obscureText = false;
-  String _value = null;
-  List<DropdownMenuItem<String>> organizationType = [
-    "School",
-    "University",
-    "Company",
-    "NGO",
-  ]
-      .map((String e) => new DropdownMenuItem<String>(
-            value: e,
-            child: Text(e),
-          ))
-      .toList();
 
   void _toggleFormType() {
     if (_formType == FormType.login) {
@@ -51,9 +39,23 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
       });
   }
 
+  TextFormField _nameTextField() {
+    return TextFormField(
+      controller: _nameController,
+      keyboardType: TextInputType.name,
+      decoration: InputDecoration(
+        labelText: 'Name',
+      ),
+    );
+  }
+
   TextFormField _aadharTextField() {
     return TextFormField(
       controller: _uidController,
+      keyboardType: TextInputType.number,
+      inputFormatters: <TextInputFormatter>[
+        FilteringTextInputFormatter.digitsOnly,
+      ],
       decoration: InputDecoration(
         labelText: 'UID number',
       ),
@@ -79,16 +81,6 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
     );
   }
 
-  TextFormField _nameTextField() {
-    return TextFormField(
-      controller: _nameController,
-      keyboardType: TextInputType.name,
-      decoration: InputDecoration(
-        labelText: 'Name',
-      ),
-    );
-  }
-
   FlatButton flatButton({@required Function onPressed, @required String text}) {
     return FlatButton(
       onPressed: onPressed,
@@ -110,8 +102,7 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
       ),
       Center(
         child: Text(
-          (_formType == FormType.login ? "Login" : "SignIn") +
-              " as Institution",
+          (_formType == FormType.login ? "Login" : "SignIn") + " as student",
           style: GoogleFonts.robotoCondensed(fontSize: 20),
         ),
       ),
@@ -121,22 +112,6 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
       _formType != FormType.login ? _nameTextField() : Container(),
       _aadharTextField(),
       _passwordtextField(),
-      SizedBox(
-        height: MediaQuery.of(context).size.height * .05,
-      ),
-      _formType == FormType.register
-          ? DropdownButton<String>(
-              items: organizationType,
-              onChanged: (value) {
-                setState(() {
-                  _value = value;
-                });
-                print(_value);
-              },
-              hint: Text("Type of Institution"),
-              value: _value,
-            )
-          : Container(),
       SizedBox(
         height: 20,
       ),
@@ -169,14 +144,12 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
       RaisedButton.icon(
         color: Colors.grey,
         onPressed: () {
-          Navigator.pushReplacement(
-              context,
-              CupertinoPageRoute(
-                builder: (context) => StudentLoginOrSignupPage(),
-              ));
+          Navigator.of(context).pushReplacement(CupertinoPageRoute(
+            builder: (context) => OrganizationLoginOrSignUp(),
+          ));
         },
-        icon: Icon(Icons.person),
-        label: Text("Student?"),
+        icon: Icon(Icons.group),
+        label: Text("Certifier?"),
       )
     ];
   }
@@ -211,16 +184,14 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
       return;
     }
     try {
-      print("Trying");
       _formType == FormType.login
-          ? await authProvider.loginInstitution(
+          ? await authProvider.loginStudent(
               uid: _uidController.text,
               password: _passwordController.text,
             )
-          : await authProvider.registerInstitution(
+          : await authProvider.registerStudent(
               uid: _uidController.text,
               password: _passwordController.text,
-              type: _value,
               name: _nameController.text,
             );
 
@@ -232,7 +203,6 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
               ))
           : showBar(context, "Registered Successfully");
     } catch (e) {
-      print(e);
       if (e is PlatformException) showBar(context, e.message);
     }
     _uidController.clear();
@@ -242,19 +212,18 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
   @override
   Widget build(BuildContext context) {
     authProvider = Provider.of<AuthBase>(context);
-
     return Scaffold(
         appBar: getAppbar(),
         body: Builder(
-          builder: (context) => SingleChildScrollView(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: formBuilder(context),
-            ),
-          ),
-        ));
+            builder: (context) => SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: formBuilder(context),
+                    ),
+                  ),
+                )));
   }
 }

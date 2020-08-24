@@ -4,10 +4,8 @@ import 'package:praman/Models/Organization.dart';
 import 'package:praman/Services/sharedPref.dart';
 import 'package:praman/Services/webSocketsEthVigil.dart';
 import 'package:praman/Widgets/Appbar.dart';
-
+import '../AndroidUi.dart';
 import 'package:provider/provider.dart';
-
-import 'AndroidUi.dart';
 
 class Organizationlanding extends StatelessWidget {
   List<Widget> actions(BuildContext context) {
