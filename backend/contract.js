@@ -19,14 +19,34 @@ module.exports = {
     return response["data"];
   },
 
-  addNewInstitute: async (_name, _type, orgAddress) => {
+  addNewInstitute: async (_name, _type, orgAddress, orgUID) => {
     console.log("In addNewInstitue");
 
     const response = await contractInstance.post("/addOrganization", {
       _name,
       _type,
       orgAddress,
+      orgUID,
     });
+    return response["data"];
+  },
+
+  addAcademicRecord: async (
+    _academicTitle,
+    _gpa,
+    _ipfsHash,
+    _orgID,
+    _studentAddress
+  ) => {
+    const response = await contractInstance.post("/addAcademicRecord", {
+      _academicTitle,
+      _gpa,
+      _ipfsHash,
+      _orgID,
+      _studentAddress,
+    });
+
+    console.log(response["data"]);
     return response["data"];
   },
 };

@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const e = require("express");
 
 const secretKey = "SomeDamnRandomKey";
 
@@ -11,5 +12,9 @@ module.exports = {
 
     return token;
   },
-  jwtVerify: () => {},
+  jwtVerify: (token) => {
+    const x = jwt.verify(token, secretKey, { algorithm: "HS256" });
+
+    return x;
+  },
 };

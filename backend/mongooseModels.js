@@ -1,5 +1,13 @@
 const mongoose = require("mongoose");
 
+const requestSchema = mongoose.Schema({
+  userAddress: String,
+  title: String,
+  type: String,
+  ipfsHash: String,
+  requestRecordCount: String,
+});
+
 module.exports = {
   student: mongoose.model(
     "Student",
@@ -19,6 +27,11 @@ module.exports = {
       address: String,
       password: String,
       type: String,
+      pendingRequests: [
+        {
+          type: requestSchema,
+        },
+      ],
     })
   ),
 };
