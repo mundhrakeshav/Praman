@@ -115,6 +115,7 @@ router.post("/loginOrganization", (req, res) => {
           uid: institute.uid,
           address: institute.address,
           name: institute.name,
+          pendingRequests: institute.pendingRequests,
         });
       } else {
         return res.json({ success: false, message: "Incorrect Password" });
@@ -149,7 +150,12 @@ router.post("/registerOrganization", (req, res) => {
       });
     } else {
       try {
-        const response = await contract.addNewInstitute(name, type, address);
+        const response = await contract.addNewInstitute(
+          name,
+          type,
+          address,
+          uid
+        );
         const txHash = response["data"][0]["txHash"];
         console.log(txHash);
         const newInstitute = new models.instution({
