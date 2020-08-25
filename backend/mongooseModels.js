@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"),
+  db = require("../backend/dbConnect/connection");
 
 const requestSchema = mongoose.Schema({
   userAddress: String,
@@ -9,7 +10,7 @@ const requestSchema = mongoose.Schema({
 });
 
 module.exports = {
-  student: mongoose.model(
+  student: db.model(
     "Student",
     mongoose.Schema({
       uid: String,
@@ -19,7 +20,7 @@ module.exports = {
     })
   ),
 
-  instution: mongoose.model(
+  instution: db.model(
     "Institute",
     mongoose.Schema({
       uid: String,

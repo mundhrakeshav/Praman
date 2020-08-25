@@ -7,17 +7,17 @@ const morgan = require("morgan");
 
 const addRecords = require("./addRecords");
 
-mongoose.connect(
-  "mongodb://127.0.0.1:27017/Praman",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-  },
-  () => {
-    console.log("Connected to mongoDB ");
-  }
-);
+// mongoose.connect(
+//   "mongodb://127.0.0.1:27017/Praman",
+//   {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//     useFindAndModify: false,
+//   },
+//   () => {
+//     console.log("Connected to mongoDB ");
+//   }
+// );
 //Mongo DB for applying for validation
 //all Jobs and Hacks on MongoDB
 //you can control who can view you profile
