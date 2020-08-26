@@ -17,6 +17,8 @@ module.exports = {
       name: String,
       address: String,
       password: String,
+      accessGivenTo: [String],
+      requestingPermission: [String],
     })
   ),
 

@@ -6,6 +6,7 @@ import 'package:praman/Models/Organization.dart';
 import 'package:praman/Services/sharedPref.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'package:praman/Widgets/drawerTiles.dart';
+import 'package:praman/androidUIs/search/searchPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../AndroidUi.dart';
 
@@ -55,7 +56,7 @@ class _OrganizationlandingState extends State<Organizationlanding> {
 
   List<Widget> _displays = [
     Text("1"),
-    Text("2"),
+    SearchPage(),
     PendingRequests(),
     Text("4"),
   ];
