@@ -55,6 +55,7 @@ class _OrganizationLoginOrSignUpState extends State<OrganizationLoginOrSignUp> {
   TextFormField _aadharTextField() {
     return TextFormField(
       controller: _uidController,
+      keyboardType: TextInputType.number,
       decoration: InputDecoration(
         labelText: 'UID number',
       ),

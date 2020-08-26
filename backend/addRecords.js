@@ -12,6 +12,7 @@ router.post("/addAcademicRecord", async (req, res) => {
     if (payload != null) {
       const body = req.body;
 
+      console.log(body, payload);
       const title = body.title;
       const details = body.details;
       const orgID = body.orgainzationID;
@@ -20,19 +21,23 @@ router.post("/addAcademicRecord", async (req, res) => {
       const address = payload.address;
 
       const resp = await helperFunctions.addDataToIpfs({ details, image });
-      const ipfsHash = resp.hash;
+      const ipfsHash = resp[0]["hash"];
 
+      console.log(ipfsHash);
       const studentData = await contract.getStudent(address);
+
       const academicRecordLength =
         studentData["data"][0]["academicRecord"].length;
 
       mongooseModels.instution.findOne({ uid: orgID }, async (e, doc) => {
         if (e) {
+          console.log(e);
         } else {
           doc.pendingRequests.push({
             userAddress: address,
             title: title,
             type: "Academic",
+            gpa: gpa,
             ipfsHash: ipfsHash,
             requestRecordCount: academicRecordLength + 1,
           });
@@ -40,7 +45,7 @@ router.post("/addAcademicRecord", async (req, res) => {
           const response = await contract.addAcademicRecord(
             title,
             gpa,
-            resp[0]["hash"],
+            ipfsHash,
             orgID,
             payload["address"]
           );

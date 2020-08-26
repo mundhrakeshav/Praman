@@ -1,24 +1,21 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:praman/Services/networkConfig.dart';
 
 class ContractData {
   static const String contractAddress =
-      "0xa9a7d58501dac00043f55c59849b5ee99a4f7653";
-
-//https://beta-api.ethvigil.com/v1.0/contract/0x50e5743c2b5895bc27d9b99d3fa68dd646c2d013/getStudent/
+      "0xa97419d988114574a05a7981246aba7dfe666005";
 
   static const String ethVigilBaseURL =
       "https://beta-api.ethvigil.com/v1.0/contract/" + contractAddress;
 
-  static Future getUserData(String address) async {
-    print(address);
-
+  static Future getStudentData(String address) async {
     http.Response response =
         await http.get(ethVigilBaseURL + "/getStudent/" + address);
 
     Map data = jsonDecode(response.body);
-    print(data);
+    return data["data"];
   }
 
   static Future<String> getCertifier(String uid) async {

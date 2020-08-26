@@ -57,10 +57,10 @@ contract PathShala is Ownable{
     
     //Struct for a organization
     struct Organization{
-        uint uid;       //Organization ID
+        uint orgCount;       //Organization ID
         string name;  //Name of the organization
         string typeOfOrganization;  //Type of Organization i.e. if it is a highSchool or a university
- 
+        uint orgUID;    
     }
     
     
@@ -107,6 +107,11 @@ contract PathShala is Ownable{
     
     mapping(address=>Organization) public addressToOrganization; //Map of organization id to Organization. 
 
+    mapping(uint => Organization) public uintToOrganization;
+
+
+    mapping(uint => Organization) public orgUIDToOrganization;
+
     
     mapping(address=>Student) public addressToStudent; //Map of address to Student and the address inturn is mapped on UID stored on backend database.
     
@@ -120,11 +125,13 @@ contract PathShala is Ownable{
     }    
     
     //function to add Organization can be only called by owner/ some governing authority
-    function addOrganization(string memory _name, string memory _type, address orgAddress ) public onlyOwner(msg.sender) {
+    function addOrganization(string memory _name, string memory _type, address orgAddress,uint orgUID ) public onlyOwner(msg.sender) {
         
-        addressToOrganization[orgAddress] = Organization(organizationCount++, _name, _type );
-        
-        emit organizationCreated(organizationCount--, _name, _type);
+        addressToOrganization[orgAddress] = Organization(organizationCount, _name, _type,orgUID );
+        uintToOrganization[organizationCount] = Organization(organizationCount, _name, _type,orgUID );
+        orgUIDToOrganization[orgUID] = Organization(organizationCount, _name, _type,orgUID );
+        organizationCount++;
+        emit organizationCreated(organizationCount-1, _name, _type);
     }
     
     //Function to add academic record in a persons profile.
@@ -136,20 +143,6 @@ contract PathShala is Ownable{
     
     }
     
-    
-    function validateAcademicRecord(address _studentAddress, uint _recordID, address _orgAddress) public {
-        
-        uint orgID = addressToOrganization[_orgAddress].uid;
-        uint StudentRecordOrgID = addressToStudent[_studentAddress].academics[_recordID].fromOrgID;
-        require(orgID == StudentRecordOrgID);
-        
-        Student storage student = addressToStudent[_studentAddress];
-        student.academics[_recordID].isVerifiedByOrganization = true;
-        
-        emit recordVerified(addressToStudent[_studentAddress].academics[_recordID].title, _recordID);
-    
-    }
-  
   
     function addPatents(address _studentAddress, string memory _title, uint _filedInYear, string memory _ipfsHash) public {
         
@@ -177,6 +170,21 @@ contract PathShala is Ownable{
     
     }
     
+  
+      function validateAcademicRecord(address _studentAddress, uint _recordID, address _orgAddress) public {
+        
+        uint orgID = addressToOrganization[_orgAddress].orgUID;
+        uint StudentRecordOrgID = addressToStudent[_studentAddress].academics[_recordID].fromOrgID;
+        require(orgID == StudentRecordOrgID);
+        
+        Student storage student = addressToStudent[_studentAddress];
+        student.academics[_recordID].isVerifiedByOrganization = true;
+        
+        emit recordVerified(addressToStudent[_studentAddress].academics[_recordID].title, _recordID);
+    
+    }
+  
+  
   
     function getStudent(address _studentAddress) public view
     returns(
@@ -212,6 +220,27 @@ contract PathShala is Ownable{
         
         
         return(academicRecord, researchPapers, patents, extraCurricular);
+    }
+    
+    
+    
+    
+    function getAllOrgs() public view returns(Organization[] memory) {
+        
+        Organization[] memory organizations = new Organization[](organizationCount);
+        Organization memory org;
+        for(uint i = 0; i < organizationCount; i++) {
+            
+             org = uintToOrganization[i];
+            
+            organizations[i] = org;
+            
+            
+            
+        }
+        
+        return organizations;
+        
     }
     
     

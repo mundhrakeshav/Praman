@@ -8,6 +8,7 @@ import 'package:praman/Widgets/AddRecordHeadingTextStyle.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:praman/Widgets/setSnackBar.dart';
 import 'package:provider/provider.dart';
 
 class AddAcademics extends StatefulWidget {
@@ -20,6 +21,7 @@ class _AddAcademicsState extends State<AddAcademics> {
   TextEditingController _detailsController = TextEditingController();
   TextEditingController _orgIDController = TextEditingController();
   TextEditingController _gpaController = TextEditingController();
+  bool _isLoading = false;
 
   File _image;
   final picker = ImagePicker();
@@ -161,81 +163,113 @@ class _AddAcademicsState extends State<AddAcademics> {
 
     return Scaffold(
       appBar: getAppbar(),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 20),
-              Center(
-                child: Text(
-                  "Add a new Record",
-                  style: addRecordHeading,
+      body: Builder(
+        builder: (context) => SingleChildScrollView(
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+          child: _isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 20),
+                      Center(
+                        child: Text(
+                          "Add a new Record",
+                          style: addRecordHeading,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      titleInput(),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      detailsInput(),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      orgIDInput(),
+                      certifierDetails == null
+                          ? Text("")
+                          : Text(certifierDetails),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(child: gpaInput()),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          FloatingActionButton.extended(
+                            heroTag: "uploadImage",
+                            backgroundColor: Colors.white38.withOpacity(.7),
+                            onPressed: () async {
+                              await chooseViaGallery();
+                              await processImage();
+                            },
+                            label: Text("Upload File"),
+                            icon: Icon(Icons.image),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      _image != null ? Image.file(_image) : Container(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      RaisedButton.icon(
+                        padding: EdgeInsets.all(10),
+                        color: Colors.white30,
+                        onPressed: () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          Map response =
+                              await addRecordProvider.addAcademicRecords(
+                            title: _titleController.text,
+                            details: _detailsController.text,
+                            gpa: _gpaController.text,
+                            organizationID: _orgIDController.text,
+                            image: _image != null
+                                ? base64Encode(_image.readAsBytesSync())
+                                : "",
+                          );
+
+                          print(response["success"].runtimeType);
+
+                          if (response["success"]) {
+                            Scaffold.of(context).showSnackBar(
+                                setSnackBar("Record Added Successfully"));
+                          } else {
+                            Scaffold.of(context)
+                                .showSnackBar(setSnackBar("Failed"));
+                          }
+                          setState(() {
+                            _detailsController.clear();
+                            _gpaController.clear();
+                            _titleController.clear();
+                            _orgIDController.clear();
+                            _image = null;
+                          });
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
+                        icon: Icon(Icons.send),
+                        label: Text("ADD"),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(height: 20),
-              titleInput(),
-              SizedBox(
-                height: 5,
-              ),
-              detailsInput(),
-              SizedBox(
-                height: 5,
-              ),
-              orgIDInput(),
-              certifierDetails == null ? Text("") : Text(certifierDetails),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  Flexible(child: gpaInput()),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  FloatingActionButton.extended(
-                    heroTag: "uploadImage",
-                    backgroundColor: Colors.white38.withOpacity(.7),
-                    onPressed: () async {
-                      await chooseViaGallery();
-                      await processImage();
-                    },
-                    label: Text("Upload File"),
-                    icon: Icon(Icons.image),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              _image != null ? Image.file(_image) : Container(),
-              SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              RaisedButton.icon(
-                padding: EdgeInsets.all(10),
-                color: Colors.white30,
-                onPressed: () async {
-                  await addRecordProvider.addAcademicRecords(
-                    title: _titleController.text,
-                    details: _detailsController.text,
-                    gpa: _gpaController.text,
-                    organizationID: _orgIDController.text,
-                    image: _image != null
-                        ? base64Encode(_image.readAsBytesSync())
-                        : "",
-                  );
-                },
-                icon: Icon(Icons.send),
-                label: Text("ADD"),
-              )
-            ],
-          ),
         ),
       ),
     );

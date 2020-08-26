@@ -127,7 +127,7 @@ class _StudentLandingState extends State<StudentLanding> {
 
   @override
   Widget build(BuildContext context) {
-    WebSocketsEthVigil wsProvider = Provider.of<WebSocketsEthVigil>(context);
+    // WebSocketsEthVigil wsProvider = Provider.of<WebSocketsEthVigil>(context);
 
     return Scaffold(
       appBar: getAppbar(),

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:praman/Services/networkConfig.dart';
 import 'package:praman/Services/sharedPref.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +22,6 @@ class AddRecords implements AddRecordsBase {
     String gpa,
     String image,
   }) async {
-    print("object");
     String token = await SharedPref.getStudentToken();
 
     http.Response resp = await http.post(url + "/addAcademicRecord", body: {
@@ -32,6 +33,6 @@ class AddRecords implements AddRecordsBase {
       "image": image,
     });
 
-    print(resp.body);
+    return jsonDecode(resp.body);
   }
 }

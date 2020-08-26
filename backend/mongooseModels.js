@@ -4,6 +4,7 @@ const requestSchema = mongoose.Schema({
   userAddress: String,
   title: String,
   type: String,
+  gpa: String,
   ipfsHash: String,
   requestRecordCount: String,
 });

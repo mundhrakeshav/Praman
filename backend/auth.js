@@ -4,8 +4,7 @@ const actions = require("./helperFunction");
 const models = require("./mongooseModels");
 const jwt = require("./jwtConfig");
 const contract = require("./contract");
-const faker = require("faker");
-const axios = require("axios");
+
 const mongooseModels = require("./mongooseModels");
 
 router.post("/loginStudent", (req, res) => {
@@ -115,7 +114,6 @@ router.post("/loginOrganization", (req, res) => {
           uid: institute.uid,
           address: institute.address,
           name: institute.name,
-          pendingRequests: institute.pendingRequests,
         });
       } else {
         return res.json({ success: false, message: "Incorrect Password" });

@@ -1,11 +1,13 @@
 // TODO Profile of the user
 import 'dart:convert';
-// import 'dart:html';
+
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:praman/Models/UserModel.dart';
+import 'package:praman/Services/networkConfig.dart';
+import 'package:praman/androidUIs/Students/profile-AcademicDocs.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -13,27 +15,49 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Uint8List image;
-
-  getData() async {
-    http.Response resp = await http.get(
-        "https://ipfs.io/ipfs/QmPGwr3cf7QBAkcz6JcTJREgTnofME1fhehCgnQ7MroSuQ");
-    setState(() {
-      image = base64Decode(json.decode(resp.body)["image"]);
-    });
-  }
-
   @override
   void initState() {
-    getData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(
-      child: image != null ? Image.memory(image) : Text("data"),
+        body: ListView(
+      children: [
+        Divider(),
+        ListTile(
+          tileColor: Colors.white12,
+          title: Text("Official Govt. Docs"),
+          trailing: Icon(Icons.arrow_right),
+        ),
+        Divider(),
+        ListTile(
+          tileColor: Colors.white12,
+          title: Text("Academic Docs"),
+          trailing: Icon(Icons.arrow_right),
+          onTap: () => Navigator.push(context,
+              CupertinoPageRoute(builder: (context) => AcademicDocs())),
+        ),
+        Divider(),
+        ListTile(
+          tileColor: Colors.white12,
+          title: Text("Research Papers"),
+          trailing: Icon(Icons.arrow_right),
+        ),
+        Divider(),
+        ListTile(
+          tileColor: Colors.white12,
+          title: Text("Patents"),
+          trailing: Icon(Icons.arrow_right),
+        ),
+        Divider(),
+        ListTile(
+          tileColor: Colors.white12,
+          title: Text("Extracurricular "),
+          trailing: Icon(Icons.arrow_right),
+        ),
+      ],
     ));
   }
 }
