@@ -49,4 +49,15 @@ module.exports = {
     console.log(response["data"]);
     return response["data"];
   },
+
+  validateAcademicRecord: async (_studentAddress, _recordID, _orgAddress) => {
+    const response = await contractInstance.post("/validateAcademicRecord", {
+      _studentAddress,
+      _recordID,
+      _orgAddress,
+    });
+
+    console.log(response["data"]);
+    return response["data"];
+  },
 };

@@ -7,6 +7,7 @@ import 'package:praman/Services/sharedPref.dart';
 import 'package:praman/Services/webSocketsEthVigil.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'package:praman/Widgets/drawerTiles.dart';
+import 'package:praman/androidUIs/search/searchPage.dart';
 
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -61,7 +62,7 @@ class _StudentLandingState extends State<StudentLanding> {
 
   List<Widget> _displays = [
     Text("data"),
-    Text("data"),
+    SearchPage(),
     ProfilePage(),
   ];
 
@@ -127,7 +128,7 @@ class _StudentLandingState extends State<StudentLanding> {
 
   @override
   Widget build(BuildContext context) {
-    WebSocketsEthVigil wsProvider = Provider.of<WebSocketsEthVigil>(context);
+    // WebSocketsEthVigil wsProvider = Provider.of<WebSocketsEthVigil>(context);
 
     return Scaffold(
       appBar: getAppbar(),

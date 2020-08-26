@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:praman/Services/auth.dart';
 import 'package:provider/provider.dart';
+import 'Models/Organization.dart';
 import 'Services/addRecords.dart';
 import 'Services/webSocketsEthVigil.dart';
 import 'androidUIs/AndroidUi.dart';
@@ -22,6 +23,9 @@ class MyApp extends StatelessWidget {
         ),
         Provider<AddRecordsBase>(
           create: (context) => AddRecords(),
+        ),
+        ChangeNotifierProvider<Organization>(
+          create: (context) => Organization(),
         ),
       ],
       child: MaterialApp(

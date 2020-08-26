@@ -14,7 +14,6 @@ class SharedPref implements SharedPrefBase {
     User.getUserData();
   }
 
-  //TODO configure function for organization
   static void initialiseOrganization() {
     Organization.name = _prefs.getString("name");
     Organization.uid = _prefs.getString("uid");
@@ -27,7 +26,6 @@ class SharedPref implements SharedPrefBase {
     return token != null;
   }
 
-  //TODO configure function for organization
   static Future<bool> isOrganizationTokenPresent() async {
     _prefs = await SharedPreferences.getInstance();
     String token = _prefs.getString("organizationToken");

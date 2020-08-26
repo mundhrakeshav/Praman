@@ -5,6 +5,7 @@ const requestSchema = mongoose.Schema({
   userAddress: String,
   title: String,
   type: String,
+  gpa: String,
   ipfsHash: String,
   requestRecordCount: String,
 });
@@ -17,6 +18,8 @@ module.exports = {
       name: String,
       address: String,
       password: String,
+      accessGivenTo: [String],
+      requestingPermission: [String],
     })
   ),
 
