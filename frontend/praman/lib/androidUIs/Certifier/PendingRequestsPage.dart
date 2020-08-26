@@ -27,8 +27,8 @@ class PendingRequests extends StatelessWidget {
         child: orgProvider.isLoading
             ? CircularProgressIndicator()
             : ListView.separated(
-                itemBuilder: (context, index) =>
-                    PendingRequestCard(orgProvider.pendingRequests[index]),
+                itemBuilder: (context, index) => PendingRequestCard(
+                    orgProvider.pendingRequests[index], index),
                 separatorBuilder: (context, index) => Divider(),
                 itemCount: orgProvider.pendingRequests.length,
               ),
@@ -39,16 +39,19 @@ class PendingRequests extends StatelessWidget {
 
 class PendingRequestCard extends StatelessWidget {
   final PendingRequest request;
-  PendingRequestCard(this.request);
+  int index;
+  PendingRequestCard(this.request, this.index);
 
   @override
   Widget build(BuildContext context) {
+    Organization orgProvider = Provider.of<Organization>(context);
+
     return InkWell(
       onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => PendingRequestDetailed(request),
+              builder: (context) => PendingRequestDetailed(request, index),
             ));
       },
       child: Padding(
@@ -117,12 +120,17 @@ class PendingRequestCard extends StatelessWidget {
                     RaisedButton(
                       onPressed: () {
                         print(request.requestRecordCount);
+                        orgProvider.handleRequest(index, request.userAddress,
+                            "true", request.requestRecordCount);
                       },
                       child: Text("Approve"),
                       color: Colors.blueGrey,
                     ),
                     RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        orgProvider.handleRequest(index, request.userAddress,
+                            "false", request.requestRecordCount);
+                      },
                       child: Text("Decline"),
                       color: Colors.red,
                     )

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:praman/Services/contractData.dart';
+import 'package:praman/Services/sharedPref.dart';
 
 import '../Services/helper.dart';
 import 'package:http/http.dart' as http;
@@ -45,7 +46,20 @@ class Organization extends ChangeNotifier {
     getPendingRequests();
   }
 
-  handleRequest() {}
+  Future handleRequest(int index, String userAddress, String isApproved,
+      String requestRecordCount) async {
+    String token = await SharedPref.getOrganizationToken();
+    http.Response response =
+        await http.post(url + "/validateAcademicRecord", body: {
+      "address": userAddress,
+      "index": index.toString(),
+      "isApproved": isApproved,
+      "token": token,
+      "requestRecordCount": requestRecordCount,
+    });
+
+    print(index);
+  }
 }
 
 class PendingRequest {

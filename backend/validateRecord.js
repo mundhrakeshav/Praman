@@ -4,20 +4,34 @@ const jwt = require("./jwtConfig");
 const contract = require("./contract");
 const mongooseModels = require("./mongooseModels");
 
-router.post("/addAcademicRecord", async (req, res) => {
-  try {
-    const payload = jwt.jwtVerify(req.body.token);
-    if (payload != null) {
-      const uid = req.body.uid;
-      mongooseModels.student.findOne({ uid: uid }, async (e, student) => {
-        if (e) {
-        } else {
-        }
-      });
+router.post("/validateAcademicRecord", async (req, res) => {
+  const payload = jwt.jwtVerify(req.body.token);
+  const address = payload.address;
+
+  const userAddress = req.body.address;
+  const recordCount = parseInt(req.body.requestRecordCount) - 1;
+  const isApproved = req.body.isApproved;
+  const index = parseInt(req.body.index);
+  console.log(index);
+  mongooseModels.instution.findOne(
+    { address: payload.address },
+    async (e, institute) => {
+      if (isApproved.toLowerCase() === "true") {
+        console.log(true);
+        await contract.validateAcademicRecord(
+          userAddress,
+          recordCount,
+          payload.address
+        );
+      } else {
+        console.log(false);
+      }
+      institute.pendingRequests.splice(index, 1);
+      institute.save();
+
+      console.log(institute.pendingRequests);
     }
-  } catch (e) {
-    return res.status(400).json({ success: "false", error: e });
-  }
+  );
 });
 
 module.exports = router;

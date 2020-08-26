@@ -7,6 +7,7 @@ const morgan = require("morgan");
 const orgData = require("./orgData");
 const addRecords = require("./addRecords");
 const studentData = require("./studentData");
+const validateRecord = require("./validateRecord");
 
 mongoose.connect(
   "mongodb://127.0.0.1:27017/Praman",
@@ -33,6 +34,7 @@ app.use(auth);
 app.use(orgData);
 app.use(addRecords);
 app.use(studentData);
+app.use(validateRecord);
 
 const port = process.env.PORT || 5000;
 

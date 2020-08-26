@@ -2,14 +2,18 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:praman/Models/Organization.dart';
+import 'package:provider/provider.dart';
 
 class PendingRequestDetailed extends StatelessWidget {
   final PendingRequest request;
+  final int index;
 
-  PendingRequestDetailed(this.request);
+  PendingRequestDetailed(this.request, this.index);
 
   @override
   Widget build(BuildContext context) {
+    Organization orgProvider = Provider.of<Organization>(context);
+
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
@@ -78,12 +82,18 @@ class PendingRequestDetailed extends StatelessWidget {
                   buttonMinWidth: MediaQuery.of(context).size.width * .3,
                   children: [
                     RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        orgProvider.handleRequest(index, request.userAddress,
+                            "true", request.requestRecordCount);
+                      },
                       child: Text("Approve"),
                       color: Colors.blueGrey,
                     ),
                     RaisedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        orgProvider.handleRequest(index, request.userAddress,
+                            "false", request.requestRecordCount);
+                      },
                       child: Text("Decline"),
                       color: Colors.red,
                     )

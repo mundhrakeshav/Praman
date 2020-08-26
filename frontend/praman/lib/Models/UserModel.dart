@@ -6,6 +6,7 @@ class User {
   static String uid;
   static String address;
   static List<AcademicRecord> academicRecords = [];
+
   static Future getUserData() async {
     academicRecords.clear();
     List response = await ContractData.getStudentData(address);
