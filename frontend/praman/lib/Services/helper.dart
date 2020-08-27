@@ -42,7 +42,18 @@ class HelperFunctions {
   static Future searchStudent(String uid) async {
     print(uid);
     http.Response response = await http.get(url + "/searchUser",
-        headers: {"searchedUserUID": uid, "searchingUserUID": User.uid});
+        headers: {"searcheduseruid": uid, "searchinguseruid": User.uid});
+
+    Map data = jsonDecode(response.body);
+    return data;
+  }
+
+  static Future requestAccess(String uid) async {
+    print(User.uid);
+    print(uid);
+
+    http.Response response = await http.post(url + "/requestAccess",
+        headers: {"searcheduseruid": uid, "searchinguseruid": User.uid});
 
     Map data = jsonDecode(response.body);
     return data;

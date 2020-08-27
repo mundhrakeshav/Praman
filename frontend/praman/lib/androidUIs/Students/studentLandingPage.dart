@@ -7,6 +7,7 @@ import 'package:praman/Services/sharedPref.dart';
 import 'package:praman/Services/webSocketsEthVigil.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'package:praman/Widgets/drawerTiles.dart';
+import 'package:praman/androidUIs/Students/PendingRequests.dart';
 import 'package:praman/androidUIs/search/searchPage.dart';
 
 import 'package:provider/provider.dart';
@@ -24,7 +25,7 @@ class StudentLanding extends StatefulWidget {
 }
 
 class _StudentLandingState extends State<StudentLanding> {
-  int _bottomNavBarselectedIndex = 2;
+  int _bottomNavBarselectedIndex = 3;
 
   void logOut() {
     SharedPref.clearToken();
@@ -51,6 +52,10 @@ class _StudentLandingState extends State<StudentLanding> {
       title: Text('Search'),
     ),
     BottomNavigationBarItem(
+      icon: Icon(Icons.hourglass_empty),
+      title: Text('Pending Reqs'),
+    ),
+    BottomNavigationBarItem(
       icon: Icon(Icons.person),
       title: Text('Profile'),
     ),
@@ -63,6 +68,7 @@ class _StudentLandingState extends State<StudentLanding> {
   List<Widget> _displays = [
     Text("data"),
     SearchPage(),
+    PendingRequest(),
     ProfilePage(),
   ];
 
@@ -135,6 +141,7 @@ class _StudentLandingState extends State<StudentLanding> {
       drawer: drawer(context),
       body: getDisplay(_bottomNavBarselectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         items: _bottomItems,
         currentIndex: _bottomNavBarselectedIndex,
         backgroundColor: Colors.grey[900],
