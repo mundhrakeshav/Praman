@@ -26,12 +26,16 @@ class PendingRequests extends StatelessWidget {
       body: Center(
         child: orgProvider.isLoading
             ? CircularProgressIndicator()
-            : ListView.separated(
-                itemBuilder: (context, index) => PendingRequestCard(
-                    orgProvider.pendingRequests[index], index),
-                separatorBuilder: (context, index) => Divider(),
-                itemCount: orgProvider.pendingRequests.length,
-              ),
+            : orgProvider.pendingRequests.isEmpty
+                ? Center(
+                    child: Text("No Pending Requests"),
+                  )
+                : ListView.separated(
+                    itemBuilder: (context, index) => PendingRequestCard(
+                        orgProvider.pendingRequests[index], index),
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: orgProvider.pendingRequests.length,
+                  ),
       ),
     );
   }

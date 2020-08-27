@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:praman/Services/contractData.dart';
 import 'package:praman/Services/helper.dart';
+import 'package:http/http.dart' as http;
+import 'package:praman/Services/networkConfig.dart';
 
 class User {
   static String name;
@@ -10,6 +14,7 @@ class User {
   static Future getUserData() async {
     academicRecords.clear();
     List response = await ContractData.getStudentData(address);
+
     List academicRecordTemp = response[0]["academicRecord"];
 
     for (var element in academicRecordTemp) {
@@ -28,6 +33,14 @@ class User {
             isValidated: element[4]),
       );
     }
+  }
+
+  static Future getPendingRequests(String uid) async {
+    http.Response response =
+        await http.get(url + "/getPendingRequests", headers: {"uid": uid});
+
+    Map data = jsonDecode(response.body);
+    return data;
   }
 }
 

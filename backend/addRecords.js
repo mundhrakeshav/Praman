@@ -19,11 +19,10 @@ router.post("/addAcademicRecord", async (req, res) => {
       const gpa = body.gpa;
       const image = body.image;
       const address = payload.address;
-
       const resp = await helperFunctions.addDataToIpfs({ details, image });
       const ipfsHash = resp[0]["hash"];
-
       console.log(ipfsHash);
+
       const studentData = await contract.getStudent(address);
 
       const academicRecordLength =
