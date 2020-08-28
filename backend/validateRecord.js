@@ -3,6 +3,7 @@ const router = express.Router();
 const jwt = require("./jwtConfig");
 const contract = require("./contract");
 const mongooseModels = require("./mongooseModels");
+const { internet } = require("faker");
 
 router.post("/validateAcademicRecord", async (req, res) => {
   const payload = jwt.jwtVerify(req.body.token);

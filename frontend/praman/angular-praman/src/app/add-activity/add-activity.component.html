@@ -1,0 +1,36 @@
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" style="font-size: larger;">प्रमान</a>
+</nav>
+<button type="button" class="btn btn-secondary mt-1 ml-1" (click)="goBack()">
+    &lt; &nbsp; Back
+</button>
+<div class="container">
+    <div class="mx-auto form-narrow mt-5">
+        <form [formGroup]="addActivityForm" (ngSubmit)="onSubmit()">
+            <h1 class="text-center">Add a new Record</h1>
+            <hr>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="title" class="sr-only">Title</label>
+                <input formControlName="title" autofocus="" tabindex="1" type="text" name="title" id="title" class="form-control" placeholder="Title" required="">
+            </div>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="details" class="sr-only">Details</label>
+                <textarea formControlName="details" tabindex="2" type="password" name="details" id="details" class="form-control" placeholder="Details" required=""></textarea>
+            </div>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="certifierId" class="sr-only">Enter the CertifierId</label>
+                <input formControlName="orgainzationID" autofocus="" tabindex="1" type="text" name="certifierId" id="certifierId" class="form-control" placeholder="Enter the CertifierId" required="">
+            </div>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="gpa" class="sr-only">GPA</label>
+                <input formControlName="gpa" autofocus="" tabindex="1" type="text" name="gpa" id="gpa" class="form-control" placeholder="GPA" required="">
+            </div>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <img [src]="url" height="200px">
+                <input type='file' (change)="onSelectFile($event)">
+            </div>
+    
+            <button  style="width:200px;" class="btn btn-secondary btn-block mx-auto mb-5" type="submit" id="add_record"><span class="fas fa-sign-in-alt fa-fw " aria-hidden="true"></span>Add</button>
+        </form>
+    </div>
+</div>

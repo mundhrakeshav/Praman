@@ -1,0 +1,38 @@
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+    <a class="navbar-brand" href="#">प्रमान</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" [href]="url">{{address}}<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" (click)="logout()">Logout</a>
+          </li><router-outlet></router-outlet>
+      </ul>
+    </div>
+</nav>
+<div class="container justify-content-center mt-5">
+    <div class="row justify-content-center" >
+        <div class="col-lg-3 rounded border mb-2 mr-2" *ngFor="let item of result">
+            <div class="heading p-2 text-center border-bottom" *ngIf="item?.title">
+                {{item.title}}
+            </div>
+            <div class="details p-2 text-center" *ngIf="item?.details">
+                {{item.details}}
+            </div>
+            <div class="image p-2 text-center border-bottom">
+                <img [src]="item.image" height="200px" width="200px">
+            </div>
+            <div class="gpa p-2 text-center border-bottom" *ngIf="item?.gpa">
+                GPA : {{item.gpa}}
+            </div>
+            <div class="d-flex justify-content-between p-2">
+                <button class="btn btn-success" (click)="approveDocument(item)">Approve</button>
+                <button class="btn btn-secondary" (click)="rejectDocument(item)">Reject</button>
+            </div>
+        </div>
+    </div>
+</div>

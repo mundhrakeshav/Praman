@@ -119,6 +119,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "angular-praman"
+    }
+  },
+  "defaultProject": "angular-praman",
+  "cli": {
+    "analytics": "2b472b97-ef01-4a04-ac6c-d3e4a010e451"
+  }
 }

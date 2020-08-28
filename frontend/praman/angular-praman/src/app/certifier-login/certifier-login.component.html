@@ -1,0 +1,29 @@
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" style="font-size: larger;">प्रमान</a>
+</nav>
+<div class="container">
+    <div class="mx-auto form-narrow mt-5">
+        <form [formGroup]="certifierLoginForm" (ngSubmit)="onSubmit()">
+            <h1 class="text-center">Login as Certifier</h1>
+            <hr>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="login_username" class="sr-only">UID Number</label>
+                <input formControlName="uid" autofocus="" tabindex="1" type="text" name="login_username" id="login_username" class="form-control" placeholder="UID Number" required="">
+            </div>
+    
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="login_password" class="sr-only">Password</label>
+                <input formControlName="password" tabindex="2" type="password" name="login_password" id="login_password" class="form-control" placeholder="Password" required="">
+            </div>
+    
+            <button  style="width:200px;" class="btn btn-secondary btn-block mx-auto" type="submit" id="login_button"><span class="fas fa-sign-in-alt fa-fw " aria-hidden="true"></span> Login</button>
+        </form>
+       <div class="row d-flex justify-content-center mt-4">
+        <a class="mr-5 text-secondary" [routerLink]="['/signin/certifier']">Register</a>
+        <a class="text-secondary" [routerLink]="['']">Forgot Password</a>
+       </div>
+       <div class="row d-flex justify-content-center mt-4">
+        <button  style="width:200px;" [routerLink]="['/login/student']" class="btn btn-secondary btn-block mx-auto"><span class="fas fa-sign-in-alt fa-fw " aria-hidden="true"></span> student?</button>
+       </div>
+    </div>
+</div>

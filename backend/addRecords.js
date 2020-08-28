@@ -24,6 +24,7 @@ router.post("/addAcademicRecord", async (req, res) => {
       console.log(ipfsHash);
 
       const studentData = await contract.getStudent(address);
+      console.log("StudentData",studentData);
 
       const academicRecordLength =
         studentData["data"][0]["academicRecord"].length;

@@ -1,0 +1,41 @@
+<nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" style="font-size: larger;">प्रमान</a>
+</nav>
+<div class="container">
+    <div class="mx-auto form-narrow mt-5">
+        <form [formGroup]="certifierSigninForm" (ngSubmit)="onSubmit()">
+            <h1 class="text-center">SignIn as Certifier</h1>
+            <hr>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="name" class="sr-only">Name</label>
+                <input formControlName="name" autofocus="" tabindex="1" type="text" name="name" id="name" class="form-control" placeholder="Name" required="">
+            </div>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="login_username" class="sr-only">UID Number</label>
+                <input formControlName="uid" autofocus="" tabindex="1" type="text" name="login_username" id="login_username" class="form-control" placeholder="UID Number" required="">
+            </div>
+    
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="login_password" class="sr-only">Password</label>
+                <input formControlName="password" tabindex="2" type="password" name="login_password" id="login_password" class="form-control" placeholder="Password" required="">
+            </div>
+            <div class="mx-auto form-group col-lg-6 col-md-6">
+                <label for="typeOfIntitute">Type of Institute</label>
+                <select formControlName="type" class="form-control" id="typeOfIntitute" required="">
+                  <option>School</option>
+                  <option>University</option>
+                  <option>NGO</option>
+                  <option>Individual Certifier</option>
+                </select>
+              </div>
+            <button  style="width:200px;" class="btn btn-secondary btn-block mx-auto" type="submit" id="login_button"><span class="fas fa-sign-in-alt fa-fw " aria-hidden="true"></span> Register</button>
+        </form>
+       <div class="row d-flex justify-content-center mt-4">
+        <a class="mr-5 text-secondary" [routerLink]="['/login/certifier']">Login</a>
+        <a class="text-secondary" [routerLink]="['']">Forgot Password</a>
+       </div>
+       <div class="row d-flex justify-content-center mt-4">
+        <button  style="width:200px;" [routerLink]="['/login/student']" class="btn btn-secondary btn-block mx-auto"><span class="fas fa-sign-in-alt fa-fw " aria-hidden="true"></span> Student?</button>
+       </div>
+    </div>
+</div>
