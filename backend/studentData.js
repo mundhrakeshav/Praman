@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const mongooseModels = require("./mongooseModels");
-
+const contract = require("./contract");
+const { instution } = require("./mongooseModels");
 router.get("/getStudentDetails", (req, res) => {
   const address = req.headers.address;
   console.log(address);
@@ -21,6 +22,43 @@ router.post("/requestAccess", (req, res) => {
     student.requestingPermission.push(searchingUserUID);
     student.save();
     return res.json({ success: "true", message: "Request Added" });
+  });
+});
+
+router.post("/acceptCertificate", (req, res) => {
+  const body = req.body;
+
+  console.log(body);
+
+  const uid = body.uid;
+  const index = parseInt(body.index);
+  const isAccepted = body.isAccepted;
+  const address = body.sendersaddress;
+  const userAddress = body.useraddress;
+  mongooseModels.student.findOne({ uid }, (e, student) => {
+    const certificate = student.pendingCertificates[index];
+
+    //   // _academicTitle,
+    //   // _gpa,
+    //   // _ipfsHash,
+    //   // _orgID,
+    //   // _studentAddress
+
+    mongooseModels.instution.findOne({ address }, async (e, instution) => {
+      console.log(instution);
+
+      const response = await contract.addAcademicRecord(
+        certificate.title,
+        certificate.gpa,
+        certificate.ipfsHash,
+        instution.uid,
+        userAddress
+      );
+
+      student.pendingCertificates.splice(index, 1);
+      student.save();
+      console.log(response);
+    });
   });
 });
 
@@ -73,6 +111,16 @@ router.post("/handleAccessRequests", async (req, res) => {
     return res.json({ message: "Rejected" });
   });
 });
+
+router.get("/getPendingRequest", async (req, res) => {
+  console.log(req.headers);
+  const uid = req.headers.uid;
+
+  mongooseModels.student.findOne({ uid }, (e, student) => {
+    return res.json({ pendingCertificates: student.pendingCertificates });
+  });
+});
+
 router.get("/searchUser", (req, res) => {
   const uid = req.headers.searcheduseruid;
   const searchinguseruid = req.headers.searchinguseruid;

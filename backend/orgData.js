@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const helperFunctions = require("./helperFunction");
 const mongooseModels = require("./mongooseModels");
 
 router.get("/getPendingReqs", (req, res) => {
@@ -10,6 +11,36 @@ router.get("/getPendingReqs", (req, res) => {
     console.log(institute.pendingRequests);
 
     return res.json(institute.pendingRequests);
+  });
+});
+
+router.post("/sendCertificate", async (req, res) => {
+  // console.log(req.body);
+  const body = req.body;
+  const sendersaddress = body.sendersaddress;
+  const title = body.title;
+  const details = body.details;
+  const uid = body.recieveruid;
+  const image = body.image;
+  const gpa = body.gpa;
+
+  // console.log(sendersaddress);
+
+  const resp = await helperFunctions.addDataToIpfs({ details, image });
+  const ipfsHash = resp[0]["hash"];
+  console.log(ipfsHash);
+
+  mongooseModels.student.findOne({ uid }, (e, student) => {
+    console.log(student);
+    student.pendingCertificates.push({
+      title: title,
+      type: "Academic",
+      gpa: gpa,
+      ipfsHash: ipfsHash,
+      sendersAddress: sendersaddress,
+    });
+    res.send(student);
+    student.save();
   });
 });
 

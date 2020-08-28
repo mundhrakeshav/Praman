@@ -6,6 +6,7 @@ import 'package:praman/Models/Organization.dart';
 import 'package:praman/Services/sharedPref.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'package:praman/Widgets/drawerTiles.dart';
+import 'package:praman/androidUIs/Certifier/addCertificate.dart';
 import 'package:praman/androidUIs/search/searchPage.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../AndroidUi.dart';
@@ -96,6 +97,12 @@ class _OrganizationlandingState extends State<Organizationlanding> {
                 ),
                 decoration: BoxDecoration(color: Colors.black45),
               ),
+              getDrawerTile("Send a Certificate ", Icons.send, () {
+                print("object");
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => AddCertificate(),
+                ));
+              }),
               Spacer(),
               getDrawerTile("Log Out", Icons.logout, logOut),
               SizedBox(height: 20)

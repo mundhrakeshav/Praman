@@ -9,6 +9,14 @@ const requestSchema = mongoose.Schema({
   requestRecordCount: String,
 });
 
+const pendingCertificatesSchema = mongoose.Schema({
+  title: String,
+  type: String,
+  gpa: String,
+  ipfsHash: String,
+  sendersAddress: String,
+});
+
 module.exports = {
   student: mongoose.model(
     "Student",
@@ -17,6 +25,11 @@ module.exports = {
       name: String,
       address: String,
       password: String,
+      pendingCertificates: [
+        {
+          type: pendingCertificatesSchema,
+        },
+      ],
       accessGivenTo: [String],
       requestingPermission: [String],
     })

@@ -102,7 +102,7 @@ class _LoginOrSignupPageState extends State<StudentLoginOrSignupPage> {
       ),
       Center(
         child: Text(
-          (_formType == FormType.login ? "Login" : "SignIn") + " as student",
+          (_formType == FormType.login ? "Login" : "SignIn"),
           style: GoogleFonts.robotoCondensed(fontSize: 20),
         ),
       ),

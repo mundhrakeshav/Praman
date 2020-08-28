@@ -8,6 +8,7 @@ import 'package:praman/Services/webSocketsEthVigil.dart';
 import 'package:praman/Widgets/Appbar.dart';
 import 'package:praman/Widgets/drawerTiles.dart';
 import 'package:praman/androidUIs/Students/PendingRequests.dart';
+import 'package:praman/androidUIs/Students/pendingCertificate.dart';
 import 'package:praman/androidUIs/search/searchPage.dart';
 
 import 'package:provider/provider.dart';
@@ -124,6 +125,18 @@ class _StudentLandingState extends State<StudentLanding> {
               }),
               getDrawerTile("Add Patents", Icons.lightbulb, onTapp),
               getDrawerTile("Add extraCurricular", Icons.sports, onTapp),
+              Spacer(),
+              getDrawerTile("Pending Certificates", Icons.date_range, () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PendingCertificate(),
+                    ));
+              }),
+              Spacer(),
+              Spacer(),
+              Spacer(),
+              Spacer(),
               Spacer(),
               getDrawerTile("Log Out", Icons.logout, logOut),
               SizedBox(height: 20)

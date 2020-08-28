@@ -43,7 +43,7 @@ class PendingRequests extends StatelessWidget {
 
 class PendingRequestCard extends StatelessWidget {
   final PendingRequest request;
-  int index;
+  final int index;
   PendingRequestCard(this.request, this.index);
 
   @override
