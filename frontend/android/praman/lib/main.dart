@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:praman/user/loginPage.dart';
+import 'package:praman/User/LoginScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,6 +20,6 @@ class MyApp extends StatelessWidget {
 class LandingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return UserLoginpage();
+    return LoginScreen();
   }
 }
